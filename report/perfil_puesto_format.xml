@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            string="PERFIL DE PUESTO" 
+            id="action_perfil_puesto_format" 
+            model="hr.job" 
+            report_type="qweb-pdf"
+            name="hr_job_denker.perfil_puesto_format" 
+            file="hr_job_denker.perfil_puesto_format" 
+        />
+
+
+        <template id="perfil_puesto_layout">
+            <!-- Multicompany -->
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+
+            <!-- <t t-call="report.external_layout_header"/> -->
+
+
+            <t t-raw="0" />
+
+            <div class="footer">
+                <div class="row" style="font-size: 8px;">
+                    <table style="width: 100%">
+                        <tr style="text-align: left;padding-left:20px;border-bottom:1px dotted #AAAAAA;">
+                            <td style="width: 15%">
+                                <t>EM-EM-001-REV-00</t>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="perfil_puesto_format">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="hr_job_denker.perfil_puesto_layout">
+                        <div class="page">
+                            <div class="row">
+<!--                                 <div style="font-size:12px;padding-left: 20px;">
+                                    <h4>
+                                        PERFIL DE PUESTO <span t-field="o.name"/>
+                                    </h4>
+                                </div> -->
+                            </div>
+
+                            <table class="table table-condensed" style="font-size:12px">
+                              <thead>
+                                <tr>
+                                    <td colspan="2" ><b>PERFIL DE PUESTO</b></td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                    <td><b>Nombre del Puesto</b></td>
+                                    <td><span t-field="o.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Empresa</b></td>
+                                    <td><span t-field="o.company_id.name"/></td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+
+
+                            <br/><br/><br/><br/>
+                            <div style="font-size:12px;">
+                                <center>
+                                    <table cellpadding="10">
+                                        <tr>
+                                            <td width="10%"></td>
+                                            <td width="30%">______________________________________<![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]></td>
+                                            <td></td>
+                                            <td width="30%">______________________________________</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td align="center">Coordinador de Calidad</td>
+                                            <td></td>
+                                            <td align="center">Director General</td>
+                                        </tr>
+                                    </table>
+                                </center>
+                                <br/><br/>
+                            </div>
+                        </div>
+                    </t>
+                 </t>
+             </t>
+        </template>
+    </data>
+</openerp>

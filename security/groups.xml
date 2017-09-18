@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="hr_job_denker_responsable" model="res.groups"> 
+    		<field name="name">Puestos de trabajo -  Responsable</field>
+            <field name="category_id" ref="base.module_category_human_resources"/>
+        </record>
+        
+    </data>
+</openerp>

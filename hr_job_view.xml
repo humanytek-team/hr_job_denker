@@ -1,0 +1,366 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+      <record model="ir.ui.view" id="hr_job_survey_auth">
+        <field name="name">view_hr_job_form_denker</field>
+        <field name="model">hr.job</field>
+        <field name="priority">20</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_job_survey"/>
+        <field name="arch" type="xml">
+          <xpath expr="//button[@name='%(hr_recruitment.action_hr_job_no_employee)d']" position="replace">
+            <button class="oe_stat_button"
+              icon="fa-users"
+              name="%(hr_recruitment.action_hr_job_no_employee)d"
+              states="authorized,recruit,open"
+              type="action">
+              <field name="no_of_employee" widget="statinfo" string="Employees"/>
+            </button>
+          </xpath>
+        </field>
+      </record>
+
+      <record model="ir.ui.view" id="view_hr_job_form_denker">
+        <field name="name">view_hr_job_form_denker</field>
+        <field name="model">hr.job</field>
+        <field name="priority">20</field>
+        <field name="inherit_id" ref="hr.view_hr_job_form"/>
+        <field name="arch" type="xml">
+          <field name="state" position="replace">
+            <field name="state" widget="statusbar" statusbar_visible="unauthorized,authorized,recruit,open"/>
+          </field>
+          <button name="set_open" position="before">
+            <button name="unauthorize" string="Desautorizar puesto" states="authorized,recruit,open" type="object" groups="hr_job_denker.hr_job_denker_responsable"/>
+            <button name="authorize" string="Autorizar puesto" states="unauthorized" type="object" groups="hr_job_denker.hr_job_denker_responsable"/>
+            <button name="start" string="Contratacion en curso" states="authorized" type="object" />
+          </button>
+          <xpath expr="//sheet/group[@name='employee_data']" position="inside">
+            <group>
+              <field name="padre_id"/>
+              <field name="company_id"/>
+
+              <field name="description"/>
+            </group>
+<!--             <group name="employee_data">
+                <group>
+                    <field name="department_id"/>
+                    <field name="no_of_recruitment"/>
+
+                    <field name="padre_id"/>
+                    <field name="company_id"/>
+
+                    <field name="description"/>
+                </group>
+            </group> -->
+          </xpath>
+
+<!--           <xpath expr="//sheet/group[@name='employee_data']" position="after">
+            <div>
+              <label for="description"/>
+              <field name="description"/>
+            </div>
+          </xpath> -->
+
+          <xpath expr="//sheet/div[3]" position="replace">
+          </xpath>
+
+          <xpath expr="//sheet/group[@name='employee_data']" position="after">
+            <div>
+              <separator string="Puestos a su cargo" />
+              <field name="subordinado_ids">
+                  <tree string="Puestos a su cargo" editable="bottom" edit="false">
+                      <field name="puesto_id" />
+                  </tree>
+              </field> 
+
+              <label for="description"/>
+              <field name="description"/>
+
+              <separator string="Funciones del area" />
+                <field name="funcion_ids">
+                  <tree string="Funciones del area" editable="bottom">
+                      <field name="funcion" />
+                  </tree>
+                </field> 
+
+
+              <separator string="Perfil" />
+              <group name="Perfil" colspan="4">
+                <group col="2">
+                  <field name="sexo" />
+                  <field name="estado_civil" />
+                  <field name="educacion" />
+                  <field name="experiencia" />
+                </group>
+
+                <group col="2">
+                  <field name="edad" />
+                  <field name="idioma" />
+                  <field name="licencia" />
+                </group>
+              </group>
+
+              <separator string="Conocimientos previos" />
+                <field name="conocimiento_ids">
+                  <tree string="Conocimientos previos" editable="bottom">
+                      <field name="conocimiento" />
+                  </tree>
+                </field>
+
+
+              <separator string="Psicometrias" />
+              <group name="psicometrias" colspan="4">
+                <group col="2">
+                  <field name="analisis_problemas" />
+                  <field name="toma_decisiones" />
+                  <field name="juicio" />
+                  <field name="comunicacion" />
+                  <field name="liderazgo" />
+                  <field name="delegacion" />
+                  <field name="desarrollo_colaboradores" />
+                  <field name="ci" />
+                </group>
+
+                <group col="2">
+                  <field name="trabajo_equipo" />
+                  <field name="inteligencia_emocional" />
+                  <field name="tolerancia_presion" />
+                  <field name="actitud_servicio" />
+                  <field name="seguimiento" />
+                  <field name="planeacion" />
+                  <field name="enfoque_resultados" />
+                  <field name="indice_confianza" />
+                </group>
+              </group>
+
+              <separator string="Equipo bajo tu responsabilidad" />
+              <group name="equipo" colspan="4">
+
+                <group name="computadora" colspan="4">
+                  <group col="2">
+                    <field name="computadora" />
+                    <field name="telefono_fijo" />
+                    <field name="telefono_celular" />
+                  </group>
+                  <group col="2">
+                    <field name="dominio_computadora" />
+                  </group>
+                </group>
+
+
+                <group name="correo" colspan="4">
+                  <group col="2">
+                    <field name="correo" />
+                  </group>
+                  <group col="2">
+                    <field name="tipo_correo" />
+                  </group>
+                </group>
+
+                <group name="muebles" colspan="4">
+                  <group col="2">
+                    <field name="muebles" />
+                  </group>
+                  <group col="2">
+                    <field name="muebles_opciones" />
+                    <!-- <field name="silla" />
+                    <field name="escritorio" />
+                    <field name="cajonera" /> -->
+                  </group>
+                </group>
+
+                <group name="uniforme" colspan="4">
+                  <group col="2">
+                    <field name="uniforme" />
+                    <!-- <field name="uniforme" widget="radio" options="{'horizontal': true}"/> -->
+                  </group>
+                  <group col="2">
+                    <field name="uniforme_opciones" />
+                    <!-- <field name="camisa" />
+                    <field name="zapato" />
+                    <field name="faja" />
+                    <field name="bata" /> -->
+                  </group>
+                </group>
+
+                <group name="extras" colspan="4">
+                  <group col="2">
+                    <field name="tarjeta_presentacion" />
+                  </group>
+                  <group col="2">
+                    <field name="firma" />
+                  </group>
+                </group>
+
+                <group col="2">
+                  <field name="caja_chica" />
+                  <field name="vehiculo" />
+                  <field name="tarjeta_gasolina" />
+                </group>
+                <group col="2">
+                  <field name="tarjeta_viaticos" />
+                  <field name="tarjeta_iave" />
+                </group>
+
+
+              </group>
+              
+              <separator string="Otras herramientas" />
+              <field name="herramientas" />
+              <!-- <field name="herramienta_ids">
+                <tree string="Otras herramientas" editable="bottom">
+                    <field name="herramienta" />
+                </tree>
+              </field>  -->
+
+
+              <separator string="Software necesarios" />
+              <group name="software" colspan="4">
+                <group col="2">
+                  <field name="microsoft_office" />
+                  <field name="autocad" />
+                  <field name="captive" />
+                  <field name="ilustrador" />
+                  <field name="photoshop" />
+                </group>
+
+                <group col="2">
+                  <field name="nitro" />
+                  <field name="visio" />
+                  <field name="sql_server" />
+                  <field name="reporteador" />
+                  <field name="ms_office" />
+                </group>
+              </group>
+
+
+              <separator string="Accesos software interno" />
+              <group name="accesos" colspan="4">
+                <group col="2">
+                  <field name="compaq" />
+                  <field name="nomipaq" />
+                  <field name="acceso_remoto" />
+                  <field name="tel_restringido" />
+                </group>
+
+                <group col="2">
+                  <field name="confirmador" />
+                  <field name="costeador" />
+                  <field name="universidad_denker" />
+                </group>
+              </group>
+
+              
+              <separator string="RED" />
+              <group name="red" colspan="4">
+                <group col="2">
+                  <field name="red_compras" />
+                  <field name="red_gerencia" />
+                  <field name="red_lider" />
+                  <field name="red_produccion" />
+                  <field name="red_proyectos" />
+                  <field name="red_bancos" />
+                  <field name="red_contabilidad" />
+                  <field name="red_contraloria" />
+                  <field name="red_cxp" />
+                  <field name="red_cxc" />
+                  <field name="red_nominas" />
+                  <field name="red_rh" />
+                  
+                </group>
+
+                <group col="2">
+                  <field name="red_abastos" />
+                  <field name="red_mkt" />
+                  <field name="red_sistemas" />
+                  <field name="red_ventas" />
+                  <field name="red_sc" />
+                  <field name="red_logistica" />
+                  <field name="red_sucursales" />
+                  <field name="red_desarrollo" />
+                  <field name="red_disenio" />
+                  <field name="red_cotizaciones" />
+                  <field name="red_proyectod" />
+                  <field name="red_oc" />
+                </group>
+              </group>
+
+              <separator string="ERP" />
+              <group name="red" colspan="4">
+                <group col="2">
+                  <field name="erp_ventas" />
+                  <field name="erp_automatizacion" />
+                  <field name="erp_proyecto" />
+                  <field name="erp_inventario" />
+                  <field name="erp_calidad" />
+                  <field name="erp_fabricacion" />
+                  <field name="erp_compras" />
+                  <field name="erp_vacaciones" />
+                  <field name="erp_procesos_seleccion" />
+                  <field name="erp_partes_horas" />
+                </group>
+
+                <group col="2">
+                  <field name="erp_helpdesk" />
+                  <field name="erp_evaluaciones" />
+                  <field name="erp_enviar_email" />
+                  <field name="erp_planificacion" />
+                  <field name="erp_sitio_web" />
+                  <field name="erp_conocimiento" />
+                  <field name="erp_administracion" />
+                  <field name="erp_fecha_faturae" />
+                  <field name="erp_facturacion_e" />
+                </group>
+              </group>
+
+             <!--  <separator string="SIIL" />
+              <group name="red" colspan="4">
+                <group col="2">
+                 <field name="siil_direccion" />
+                  <field name="siil_clientes" />
+                  <field name="siil_proveedores" />
+                  <field name="siil_articulos" />
+                  <field name="siil_personal" />
+                </group>
+                <group col="2">
+                  <field name="siil_almacen" />
+                  <field name="siil_produccion" />
+                  <field name="siil_ventas" />
+                  <field name="siil_cxp" />
+                </group>
+              </group>
+
+              <separator string="INTRANET" />
+              <group name="red" colspan="4">
+                <group col="2">
+                  <field name="intranet_direccion" />
+                  <field name="intranet_catalogos" />
+                  <field name="intranet_operacion" />
+                  <field name="intranet_sc" />
+                  <field name="intranet_ventas" />
+                </group>
+                <group col="2">
+                  <field name="intranet_mkt" />
+                  <field name="intranet_finanzas" />
+                  <field name="intranet_sgcd" />
+                  <field name="intranet_mesa_ayuda" />
+                </group>
+              </group> -->
+
+
+              <separator string="Comentarios extra" />
+              <field name="comentarios_extra" />
+              <field name="comentario_ids">
+                <tree string="Comentarios extras" editable="bottom">
+                    <field name="comentario" />
+                </tree>
+              </field>
+            </div>
+          </xpath>
+
+          
+
+        </field>
+      </record>
+
+    </data>
+</openerp>
